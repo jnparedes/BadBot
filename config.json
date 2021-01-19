@@ -1,0 +1,30 @@
+{
+	"num_traces": 2,
+	"output_path_base": "results/trace",
+	"dataset_csv":{
+		"location": "example/datasets/fake_news/fake-news-detection/data.csv",
+		"id":"ID",
+		"content":"Body",
+		"category":"Category",
+		"gt":"Label",
+		"delimiter":",",
+		"positive_labels": ["1"],
+		"negative_labels": ["0"]
+	},
+	"new_graph": true,
+	"num_nodes": 10,
+	"num_edges": 10,
+	"t_sim": 15,
+	"prop_mal":0.2,
+	"num_botnet":1,
+	"prob_memb":0.25,
+	"prob_nm_post":0.05,
+	"prob_m_post":0.5,
+	"prob_b_post":0.5,
+	"prob_nm_mal":0.1,
+	"prob_m_mal":0.6,
+	"prob_b_mal":0.6,
+	"prob_nm_share":0.2,
+	"prob_m_share":0.1,
+	"prob_b_share":0.1
+}
