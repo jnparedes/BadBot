@@ -104,7 +104,7 @@ class BadBot:
 
 		for time in range(0, self._t_sim):
 			for af_publication in self._af_publications:
-				post = af_publication.get_publication()
+				post = af_publication.get_publication(time)
 				if not post is None:
 					data = {}
 					node = af_publication.get_node()

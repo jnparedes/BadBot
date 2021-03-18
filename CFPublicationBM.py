@@ -15,8 +15,8 @@ class CFPublicationBM(AFPublication):
 	def get_new_publication(self):
 		pass
 
-	def get_publication(self):
-		result = self._mate.get_publication()
+	def get_publication(self, time):
+		result = self._mate.get_publication(time)
 		return result		
 
 		

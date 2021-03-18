@@ -9,7 +9,7 @@ class AFPublication(ABC):
 		self._dataset = dataset
 		self._node = node
 		self._neighbors = neighbors
-		self._time = 0
+		self._time = -1
 		self._prob_post = prob_post
 		self._prob_mal = prob_mal
 		self._prob_share = prob_share
@@ -35,16 +35,20 @@ class AFPublication(ABC):
 	def get_new_publication(self):
 		pass
 	
-	def get_publication(self):
+	def get_publication(self, time):
 		post_index = None
-		random_value = random.random()
-		if random_value < self._prob_post:
-			post_index = self.get_new_publication()
-		elif((random_value <= (self._prob_post + self._prob_share)) and (len(self._neighbors) > 0)):
-			post_index = self.get_publication_neigh()
+		if (self._time < time):
+			while (self._time < time):
+				self._time += 1
+				random_value = random.random()
+				if random_value < self._prob_post:
+					post_index = self.get_new_publication()
+				elif((random_value <= (self._prob_post + self._prob_share)) and (len(self._neighbors) > 0)):
+					post_index = self.get_publication_neigh(self._time)
 
-		self._time += 1
-		self._history_publications.append(post_index)
+				self._history_publications.append(post_index)
+		else:
+			post_index = self._history_publications[time]
 
 		return post_index
 
@@ -85,12 +89,13 @@ class AFPublication(ABC):
 					result = id_post
 		return result
 
-	def get_dominant_category_neigh(self):
+	def get_dominant_category_neigh(self, time):
 		result = None
 		category_kinds = self._dataset.get_categories()
 		counter = [0] * len(category_kinds)
 		for neigh in self._neighbors:
-			category = self._af_post_database.get_dominant_category(neigh, self._time)
+			#category = self._af_post_database.get_dominant_category(neigh, self._time)
+			category = self._af_post_database.get_dominant_category(neigh, time)
 			if not category is None:
 				for x in range(len(category_kinds)):
 					if category == category_kinds[x]:
@@ -104,10 +109,11 @@ class AFPublication(ABC):
 		return result
 
 
-	def get_publication_neigh(self):
+	def get_publication_neigh(self, time):
 		result = None
-		category = self.get_dominant_category_neigh()
-		times = list(range(self._time + 1))
+		category = self.get_dominant_category_neigh(time)
+		#times = list(range(self._time + 1))
+		times = list(range(time))
 		random.shuffle(times)
 		random.shuffle(self._neighbors)
 		if not category is None:
